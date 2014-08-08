@@ -1,0 +1,5 @@
+src/package.xml
+*.sublime-project
+*.sublime-settings
+*.sublime-workspace
+config
