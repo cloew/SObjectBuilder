@@ -1,6 +1,8 @@
 @isTest
 public class SObjectFieldValueProviders
 {
+    static Integer counter = 0;
+
     public interface ISObjectFieldValueProvider
     {
         Object getValue();
@@ -26,9 +28,8 @@ public class SObjectFieldValueProviders
         }
     }
 
-    public class UniqueStringProvider implements ISObjectFieldValueProvider
+    public virtual class UniqueStringProvider implements ISObjectFieldValueProvider
     {
-        static Integer counter = 0;
         private String base;
         
         public UniqueStringProvider(String base)
@@ -36,7 +37,7 @@ public class SObjectFieldValueProviders
             this.base = base;
         }
 
-        public Object getValue()
+        public virtual Object getValue()
         {
             String result = base + String.valueOf(counter);
             counter++;
@@ -48,15 +49,16 @@ public class SObjectFieldValueProviders
     {
         private String idPrefix;
         
-        public UniqueIdProvider(Schema.SObjectType sObjectType)
+        public DummyIdProvider(Schema.SObjectType sObjectType)
         {
             super('');
             idPrefix = sObjectType.getDescribe().getKeyPrefix();
         }
 
-        public Object getValue()
+        public override Object getValue()
         {
-            String idSuffix = super.getValue().leftPad(12);
+            String idBase = (String) super.getValue();
+            String idSuffix = idBase.leftPad(12);
             idSuffix = idSuffix.replace(' ', '0');
             return idPrefix + idSuffix;
         }
@@ -90,7 +92,7 @@ public class SObjectFieldValueProviders
     public class ListValueProvider implements ISObjectFieldValueProvider
     {
         private List<Object> values;
-        private Integer counter = 0;
+        private Integer index = 0;
         
         public ListValueProvider(List<Object> values)
         {
@@ -99,9 +101,9 @@ public class SObjectFieldValueProviders
 
         public Object getValue()
         {
-            Object value = values[counter];
-            counter++;
-            counter %= values.size();
+            Object value = values[index];
+            index++;
+            index = math.mod(index, values.size());
             return value;
         }
     }

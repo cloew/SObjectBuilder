@@ -1,28 +1,4 @@
-@isTest
-public class SObjectFieldValueProviders
-{
-    public interface ISObjectFieldValueProvider
-    {
-        Object getValue();
-    }
-
-    public class ParentProvider implements ISObjectFieldValueProvider
-    {
-        private Schema.SObjectType objectType;
-        private SObject record;
-        
-        public ParentProvider(Schema.SObjectType objectType)
-        {
-            this.objectType = objectType;
-        }
-
-        public Object getValue()
-        {
-            if (record == null)
-            {
-                record = new SObjectBuilder(objectType).buildAndInsert()[0];
-            }
-            return record.Id;
-        }
-    }
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexClass xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>30.0</apiVersion>
+</ApexClass>
