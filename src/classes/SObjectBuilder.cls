@@ -14,7 +14,7 @@ public class SObjectBuilder
     public SObjectBuilder(Schema.SObjectType objectType)
     {
         this.objectType = objectType;
-        fieldToValue = new Map<Schema.SObjectField, Object>(SObjectDefaults.getDefaults(objectType));
+        fieldToValue = new Map<Schema.SObjectField, Object>();
     }
 
     public SObjectBuilder count(Integer numberToBuild)

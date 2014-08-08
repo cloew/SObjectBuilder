@@ -19,8 +19,11 @@ public class SObjectFactory
     {
         return build(1, objectType, fieldToValue)[0];
     }
-    public static List<SObject> build(Integer recordCount, Schema.SObjectType objectType, Map<Schema.SObjectField, Object> fieldToValue)
+    public static List<SObject> build(Integer recordCount, Schema.SObjectType objectType, Map<Schema.SObjectField, Object> customFieldToValue)
     {
+        Map<Schema.SObjectField, Object> fieldToValue = new Map<Schema.SObjectField, Object>(SObjectDefaults.getDefaults(objectType));
+        fieldToValue.putAll(customFieldToValue);
+
         SObject record = objectType.newSObject();
         return copy(recordCount, record, fieldToValue);
     }
